@@ -11,6 +11,21 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    if (contacts !== null) {
+      this.setState({
+        contacts: JSON.parse(contacts),
+      });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   checkNameInContacts = nameValue => {
     return this.state.contacts.some(
       ({ name }) => name.toLowerCase() === nameValue.toLowerCase()
